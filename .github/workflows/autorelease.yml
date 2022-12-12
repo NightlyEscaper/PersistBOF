@@ -93,7 +93,8 @@ jobs:
     - name: Build persist-ice-monitor
       run: |
         mkdir compiled
-        cat extensions/persist-ice-monitor.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
+        cat extensions/persist-ice-monitor.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > extensions/persist-ice-monitor.json
+        cp extensions/persist-ice-monitor.json ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-monitor.o -DPRINTMONITOR 
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-monitor.o
         cp persist-ice-monitor.o ./compiled/
@@ -103,7 +104,8 @@ jobs:
       
     - name: Build persist-ice-time
       run: |
-        cat extensions/persist-ice-time.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
+        cat extensions/persist-ice-time.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > extensions/persist-ice-time.json
+        cp extensions/persist-ice-time.json ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-time.o -DTIME
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-time.o
         cp persist-ice-time.o ./compiled/
@@ -113,7 +115,8 @@ jobs:
 
     - name: Build persist-ice-shortcut
       run: |
-        cat extensions/persist-ice-shortcut.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
+        cat extensions/persist-ice-shortcut.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > extensions/persist-ice-shortcut.json
+        cp extensions/persist-ice-shortcut.json ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-shortcut.o -DShortCutStartup 
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-shortcut.o
         cp persist-ice-shortcut.o ./compiled/
@@ -123,7 +126,8 @@ jobs:
 
     - name: Build persist-ice-junction
       run: |
-        cat extensions/persist-ice-junction.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
+        cat extensions/persist-ice-junction.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > extensions/persist-ice-junction.json
+        cp extensions/persist-ice-junction.json ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-junction.o -DJUNCTION 
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-junction.o
         cp persist-ice-junction.o ./compiled/
@@ -135,10 +139,13 @@ jobs:
       run: |
         touch ~/minisign.key && chmod 600 ~/minisign.key
         echo -e "${{ secrets.MINISIGN_PRIVATE_KEY }}" > ~/minisign.key
-        MANIFEST=$(cat ./compiled/extension.json | base64 -w 0)
+        MANIFEST=$(cat ./extensions/persist-ice-monitor.json | base64 -w 0)
         bash -c "echo \"\" | ~/minisign -s ~/minisign.key -S -m ./persist-ice-monitor.tar.gz -t \"$MANIFEST\" -x persist-ice-monitor.minisig"
+        MANIFEST=$(cat ./extensions/persist-ice-time.json | base64 -w 0)
         bash -c "echo \"\" | ~/minisign -s ~/minisign.key -S -m ./persist-ice-time.tar.gz -t \"$MANIFEST\" -x persist-ice-time.minisig"
+        MANIFEST=$(cat ./extensions/persist-ice-shortcut.json | base64 -w 0)
         bash -c "echo \"\" | ~/minisign -s ~/minisign.key -S -m ./persist-ice-shortcut.tar.gz -t \"$MANIFEST\" -x persist-ice-shortcut.minisig"
+        MANIFEST=$(cat ./extensions/persist-ice-junction.json | base64 -w 0)
         bash -c "echo \"\" | ~/minisign -s ~/minisign.key -S -m ./persist-ice-junction.tar.gz -t \"$MANIFEST\" -x persist-ice-junction.minisig"
 
     - name: "Publish Release"
