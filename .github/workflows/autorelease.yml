@@ -103,7 +103,6 @@ jobs:
       
     - name: Build persist-ice-time
       run: |
-        mkdir compiled
         cat extensions/persist-ice-time.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-time.o -DTIME
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-time.o
@@ -114,7 +113,6 @@ jobs:
 
     - name: Build persist-ice-shortcut
       run: |
-        mkdir compiled
         cat extensions/persist-ice-shortcut.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-shortcut.o -DShortCutStartup 
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-shortcut.o
@@ -125,7 +123,6 @@ jobs:
 
     - name: Build persist-ice-junction
       run: |
-        mkdir compiled
         cat extensions/persist-ice-junction.json | jq ".version |= \"${{ needs.sync_latest_from_upstream.outputs.tag || 'v0.0.0' }}\"" > ./compiled/extension.json
         x86_64-w64-mingw32-gcc -c PersistenceBOF.c -o persist-ice-junction.o -DJUNCTION 
         x86_64-w64-mingw32-strip -N PersistenceBOF.c persist-ice-junction.o
