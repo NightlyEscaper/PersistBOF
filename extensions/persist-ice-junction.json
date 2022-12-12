@@ -1,0 +1,45 @@
+{
+    "name": "persist-ice-junction",
+    "version": "0.0.0",
+    "command_name": "persist-ice-junction",
+    "extension_author": "IcebreakerSecurity",
+    "original_author": "IcebreakerSecurity",
+    "repo_url": "https://github.com/NightlyEscaper/PersistBOF",
+    "help": "Non-elevated. See https://github.com/NightlyEscaper/PersistBOF#junction-folder",
+    "long_help": "Same technique as demonstrated in Vault 7 leaks. Executed on user login. Non-elevated. Dll will be loaded into explorer.exe.",
+    "depends_on": "coff-loader",
+    "entrypoint": "go",
+    "files": [
+        {
+            "os": "windows",
+            "arch": "amd64",
+            "path": "persist-ice-junction.o"
+        }
+    ],
+    "arguments": [
+        {
+            "name": "Action",
+            "desc": "Install = 0 / Unsintall = 1.",
+            "type": "int",
+            "optional": false
+        },
+        {
+            "name": "FolderName",
+            "desc": "Folder name that in startup folder.",
+            "type": "wstring",
+            "optional": false
+        },
+        {
+            "name": "DLLPath",
+            "desc": "Your Full Dll Path.",
+            "type": "wstring",
+            "optional": false
+        },
+        {
+            "name": "CLSID",
+            "desc": "CLSID to save in registry.",
+            "type": "wstring",
+            "optional": false
+        }
+    ]
+}

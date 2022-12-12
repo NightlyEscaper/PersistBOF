@@ -1,0 +1,39 @@
+{
+    "name": "persist-ice-monitor",
+    "version": "0.0.0",
+    "command_name": "persist-ice-monitor",
+    "extension_author": "IcebreakerSecurity",
+    "original_author": "IcebreakerSecurity",
+    "repo_url": "https://github.com/NightlyEscaper/PersistBOF",
+    "help": "Must be elevated to run. See https://github.com/NightlyEscaper/PersistBOF#print-monitor",
+    "long_help": "The Dll MUST be on disk and in a location in PATH (Dll search order) BEFORE you run the BOF. It will fail otherwise. The Dll will immediately be loaded by spoolsv.exe as SYSTEM. This can be used to elevate from admin to SYSTEM as well as for persistence. Will execute on system startup. Must be elevated to run.",
+    "depends_on": "coff-loader",
+    "entrypoint": "go",
+    "files": [
+        {
+            "os": "windows",
+            "arch": "amd64",
+            "path": "persist-ice-monitor.o"
+        }
+    ],
+    "arguments": [
+        {
+            "name": "Action",
+            "desc": "Install = 0 / Unsintall = 1.",
+            "type": "int",
+            "optional": false
+        },
+        {
+            "name": "RegKey",
+            "desc": "Registry key name.",
+            "type": "wstring",
+            "optional": false
+        },
+        {
+            "name": "DLLName",
+            "desc": "Your Dll Name.",
+            "type": "wstring",
+            "optional": false
+        }
+    ]
+}

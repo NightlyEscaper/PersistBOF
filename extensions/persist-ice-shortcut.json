@@ -1,0 +1,39 @@
+{
+    "name": "persist-ice-shortcut",
+    "version": "0.0.0",
+    "command_name": "persist-ice-shortcut",
+    "extension_author": "IcebreakerSecurity",
+    "original_author": "IcebreakerSecurity",
+    "repo_url": "https://github.com/NightlyEscaper/PersistBOF",
+    "help": "Non-elevated. See https://github.com/NightlyEscaper/PersistBOF#start-folder-hijack",
+    "long_help": "Create a new, user writeable folder, copy a hijackable windows binary to the folder, then create a shortcut in the startup folder. Executed on user login. Non-elevated.",
+    "depends_on": "coff-loader",
+    "entrypoint": "go",
+    "files": [
+        {
+            "os": "windows",
+            "arch": "amd64",
+            "path": "persist-ice-shortcut.o"
+        }
+    ],
+    "arguments": [
+        {
+            "name": "Action",
+            "desc": "Install = 0 / Unsintall = 1.",
+            "type": "int",
+            "optional": false
+        },
+        {
+            "name": "FolderName",
+            "desc": "Full Folder name.",
+            "type": "wstring",
+            "optional": false
+        },
+        {
+            "name": "EXEName",
+            "desc": "EXE that you wanna hijack.",
+            "type": "wstring",
+            "optional": false
+        }
+    ]
+}

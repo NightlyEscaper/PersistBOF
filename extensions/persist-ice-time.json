@@ -1,0 +1,39 @@
+{
+    "name": "persist-ice-time",
+    "version": "0.0.0",
+    "command_name": "persist-ice-time",
+    "extension_author": "IcebreakerSecurity",
+    "original_author": "IcebreakerSecurity",
+    "repo_url": "https://github.com/NightlyEscaper/PersistBOF",
+    "help": "Must be elevated to run. See https://github.com/NightlyEscaper/PersistBOF#time-provider",
+    "long_help": "Loaded by svchost.exe as NETWORK SERVICE (get your potatoes ready!) on startup after running the BOF. Must be elevated to run.",
+    "depends_on": "coff-loader",
+    "entrypoint": "go",
+    "files": [
+        {
+            "os": "windows",
+            "arch": "amd64",
+            "path": "persist-ice-time.o"
+        }
+    ],
+    "arguments": [
+        {
+            "name": "Action",
+            "desc": "Install = 0 / Unsintall = 1.",
+            "type": "int",
+            "optional": false
+        },
+        {
+            "name": "RegKey",
+            "desc": "Registry key name.",
+            "type": "wstring",
+            "optional": false
+        },
+        {
+            "name": "DLLPath",
+            "desc": "Your Full Dll Path.",
+            "type": "wstring",
+            "optional": false
+        }
+    ]
+}
