@@ -99,7 +99,7 @@ jobs:
         cp persist-ice-monitor.o ./compiled/
         cd compiled
         tar -czvf ../persist-ice-monitor.tar.gz .
-        rm -rf compiled
+        rm -rf *
       
     - name: Build persist-ice-time
       run: |
@@ -110,7 +110,7 @@ jobs:
         cp persist-ice-time.o ./compiled/
         cd compiled
         tar -czvf ../persist-ice-time.tar.gz .
-        rm -rf compiled
+        rm -rf *
 
     - name: Build persist-ice-shortcut
       run: |
@@ -121,7 +121,7 @@ jobs:
         cp persist-ice-shortcut.o ./compiled/
         cd compiled
         tar -czvf ../persist-ice-shortcut.tar.gz .
-        rm -rf compiled
+        rm -rf *
 
     - name: Build persist-ice-junction
       run: |
@@ -132,7 +132,7 @@ jobs:
         cp persist-ice-junction.o ./compiled/
         cd compiled
         tar -czvf ../persist-ice-junction.tar.gz .
-        rm -rf compiled
+        rm -rf *
 
     - name: Sign Package
       run: |
