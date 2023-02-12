@@ -1,5 +1,5 @@
 # PersistBOF
-A tool to help automate common persistence mechanisms.  Currently supports Print Monitor (SYSTEM), Time Provider (Network Service), Start folder shortcut hijacking (User), and Junction Folder (User)
+A tool to help automate common persistence mechanisms.  Currently supports Print Monitor (SYSTEM), Time Provider (Network Service), Start folder shortcut hijacking (User), Junction Folder (User), Xll Add-In (User).
 
 ## Usage
 Clone, run make, add .cna to Cobalt Strike client.
@@ -7,11 +7,20 @@ Clone, run make, add .cna to Cobalt Strike client.
 run: help persist-ice in CS console
 
 Syntax:
-- persist-ice [PrintMon, TimeProv, Shortcut, Junction] [persist or clean] [key/folder name] [dll / lnk exe name];
+- persist-ice [PrintMon, TimeProv, Shortcut, Junction, Xll] [persist or clean] [arg1] [arg2];
 
 
 ## Technique Overview
 All of these techniques rely on a Dll file to be seperately placed on disk.  It is intentially not part of the BOF.
+
+
+### Xll Add-in
+Create Dll with export xlAutoOpen().  Rename .dll to .xll and place in %appdata%\Microsoft\Addins.  Will be loaded any time Excel is opened with no notification.  Writes a registry key to HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\\{version number}\Excel\Options , provide the correct version number as there may be multiple.
+
+Example:
+
+- persist-ice Xll persist XllName.xll 16 
+- persist-ice Xll clean XllName.xll 16 > Will delete the registry key and attempt to delete the dll. 
 
 ### Print Monitor
 The Dll MUST be on disk and in a location in PATH (Dll search order) **BEFORE you run the BOF**.  It will fail otherwise.  The Dll will *immediately* be loaded by spoolsv.exe as SYSTEM.  This can be used to elevate from admin to SYSTEM as well as for persistence.  Will execute on system startup. **Must be elevated to run.**
@@ -36,6 +45,8 @@ Example:
 
 ### Junction Folder
 Same technique as demonstrated in Vault 7 leaks. Executed on user login.  Non-elevated.  Dll will be loaded into explorer.exe 
+
+**NOTE: This needs to be a COM server dll to run properly.  You can execute code out of DllRegisterServer, DllMain, or DllGetClassObject depending on what you are trying to do.  Make sure to implement other required exports**
 
 Example:
 
